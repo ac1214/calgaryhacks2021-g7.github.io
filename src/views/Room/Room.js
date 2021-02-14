@@ -4,6 +4,7 @@ import GridContainer from "components/Grid/GridContainer.js";
 import Peer from "simple-peer";
 import io from "socket.io-client";
 import Button from "@material-ui/core/Button";
+import {CodeEditor} from "../../components/CodeEditor/CodeEditor";
 
 export default function Room() {
     const [yourID, setYourID] = useState("");
@@ -82,6 +83,7 @@ export default function Room() {
         })
 
         peer.signal(callerSignal);
+        incomingCall = <div></div>;
     }
 
     let UserVideo;
@@ -111,6 +113,10 @@ export default function Room() {
     return (
         <div>
             <GridContainer>
+                <GridItem>
+                    <h1>Code Editor</h1>
+                    <CodeEditor />
+                </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
                     {PartnerVideo}
                 </GridItem>
@@ -124,7 +130,7 @@ export default function Room() {
                         }
                         return (
                             <GridItem>
-                                <Button variant={"contained"} color={"primary"} onClick={() => callPeer(key)}>Call {key}</Button>
+                                <Button variant={"outlined"} color={"primary"} onClick={() => callPeer(key)}>Call {key}</Button>
                             </GridItem>
                         );
                     })
