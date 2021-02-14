@@ -164,6 +164,9 @@ export default function TableList() {
     setOpenload(true);
 
     async function fetchMyAPI() {
+      if (user === null) {
+        return;
+      }
 
       let response = await fetch("https://operating-land-304706.wm.r.appspot.com/get_all_sessions?user_id=" + user.uid, requestOptions)
       response = await response.json()
