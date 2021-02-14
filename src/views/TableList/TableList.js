@@ -229,7 +229,7 @@ export default function TableList() {
         if (otherUser != null) {
           name = users[otherUser.toString()]
         }
-        past.push([formatDate(date), table[key].course, users[otherUser.toString()], add, view]);
+        past.push([formatDate(date), table[key].course, name, add, view]);
         visited = true;
       }
       if (!visited) {
