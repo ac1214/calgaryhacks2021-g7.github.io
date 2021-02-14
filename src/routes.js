@@ -14,6 +14,7 @@ import Typography from "views/Typography/Typography.js";
 import Icons from "views/Icons/Icons.js";
 import Calendar from "views/Calendar/Calendar.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
+import Room from "./views/Room/Room";
 
 
 
@@ -67,6 +68,13 @@ const dashboardRoutes = [
     component: NotificationsPage,
     layout: "/admin"
   },
+  {
+    path: "/Room",
+    name: "Room",
+    icon: Notifications,
+    component: Room,
+    layout: "/admin"
+  }
 ];
 
 export default dashboardRoutes;
