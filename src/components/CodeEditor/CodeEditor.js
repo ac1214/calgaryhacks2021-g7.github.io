@@ -45,7 +45,6 @@ export const CodeEditor = () => {
                 fontSize: 12,
             }}
         />
-
         </>
 
     );
