@@ -138,7 +138,7 @@ export default function TableList() {
   const cancelSession = (session_id) => { // the callback. Use a better name\
     setOpenload(true);
     async function fetchMyAPI() {
-      let response = await fetch("http://0.0.0.0:5000/cancel_session?user_id=a9A5KGO2lVco7KWs0pdJ245BXzy1", {
+      let response = await fetch("https://operating-land-304706.wm.r.appspot.com/cancel_session?user_id=a9A5KGO2lVco7KWs0pdJ245BXzy1", {
         method: 'DELETE',
         redirect: 'follow',
         body: JSON.stringify({
