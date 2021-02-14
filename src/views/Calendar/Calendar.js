@@ -26,7 +26,8 @@ function tConvert(time) {
 export default function Calendar () {
     const [chosenTime, setChosenTime] = useState({
         date: null,
-        dateString: ""
+        dateString: "",
+        subject: ""
     });
     const [modalOpen, setModalOpen] = useState(false);
 
