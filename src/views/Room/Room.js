@@ -148,9 +148,10 @@ export default function Room() {
             iste minus officia officiis quibusdam saepe sed tempore, temporibus
             tenetur.
           </p>
-        </GridItem>
-        <GridItem xs={6} sm={6} md={6}>
-          <Doc />
+          <GridItem xs={6} sm={6} md={6}>
+            <Typography variant={"h5"} component={"h1"}>Whiteboard</Typography>
+            <Doc />
+          </GridItem>
         </GridItem>
         <GridItem xs={6} sm={6} md={6}>
           <GridItem xs={12} sm={12} md={12}>
