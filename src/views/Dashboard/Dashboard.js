@@ -4,7 +4,7 @@ export default function Dashboard() {
   return (
     <>
       <div>
-        <Doc />
+        DASH BOARD GOES HERE!!!
       </div>
     </>
   );

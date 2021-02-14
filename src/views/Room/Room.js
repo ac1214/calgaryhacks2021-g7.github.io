@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import GridItem from "components/Grid/GridItem.js";
 import Peer from "simple-peer";
 import io from "socket.io-client";
@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 import { CodeEditor } from "../../components/CodeEditor/CodeEditor";
 import Grid from "@material-ui/core/Grid";
 import { Box, Typography } from "@material-ui/core";
-import Doc from "components/Doc/Doc";
+import Doc from "../../components/Doc/Doc";
 
 export default function Room() {
   const [yourID, setYourID] = useState("");
@@ -22,13 +22,9 @@ export default function Room() {
   const socket = useRef();
 
   useEffect(() => {
-    socket.current = io(
-      "https://video-chat-dot-operating-land-304706.wm.r.appspot.com",
-      {
-        withCredentials: true,
-      }
-    );
-    console.log(socket.current);
+    socket.current = io("http://localhost:8080", {
+      withCredentials: true,
+    });
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: false })
       .then((stream) => {
@@ -52,6 +48,7 @@ export default function Room() {
       setCallerSignal(data.signal);
     });
   }, []);
+
   const callPeer = (id) => {
     const peer = new Peer({
       initiator: true,
@@ -150,7 +147,7 @@ export default function Room() {
           </p>
         </GridItem>
         <GridItem xs={6} sm={6} md={6}>
-          <Doc />
+          {socket.current ? <Doc socket={socket.current} /> : ""}
         </GridItem>
         <GridItem xs={6} sm={6} md={6}>
           <GridItem xs={12} sm={12} md={12}>
