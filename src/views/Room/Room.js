@@ -28,7 +28,6 @@ export default function Room() {
         withCredentials: true,
       }
     );
-    console.log(socket.current);
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: false })
       .then((stream) => {
@@ -52,6 +51,7 @@ export default function Room() {
       setCallerSignal(data.signal);
     });
   }, []);
+
   const callPeer = (id) => {
     const peer = new Peer({
       initiator: true,
@@ -104,7 +104,7 @@ export default function Room() {
 
   let PartnerVideo;
   if (callAccepted) {
-    PartnerVideo = <video ref={partnerVideo} autoPlay={true} height={150} />;
+    PartnerVideo = <video ref={partnerVideo} autoPlay={true} height={300} />;
   }
 
   let incomingCall;
