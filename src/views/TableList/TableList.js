@@ -261,7 +261,7 @@ export default function TableList() {
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}  style={{fontSize: "20px", fontWeight: "bold"}}>Past Practice Sessions</h4>
             <p className={classes.cardCategoryWhite} style={{fontSize: "15px"}}>
-              Here is a subtitle for this table
+            View your past practice sessions
             </p>
           </CardHeader>
           <CardBody>
