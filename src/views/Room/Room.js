@@ -91,14 +91,14 @@ export default function Room() {
     let UserVideo;
     if(stream){
         UserVideo = (
-            <video ref={userVideo} autoPlay={true} />
+            <video ref={userVideo} autoPlay={true} height={150} />
         )
     }
 
     let PartnerVideo;
     if(callAccepted){
         PartnerVideo = (
-            <video ref={partnerVideo} autoPlay={true}/>
+            <video ref={partnerVideo} autoPlay={true} height={150}/>
         );
     }
 
@@ -125,8 +125,11 @@ export default function Room() {
                 </GridItem>
                 <GridItem xs={6} sm={6} md={6}>
                     <GridItem xs={12} sm={12} md={12}>
-                        <h1>Code Editor</h1>
+                        <Typography variant={"h5"} component={"h3"} >Code Editor</Typography>
                         <CodeEditor />
+                    </GridItem>
+                    <GridItem>
+                        <Typography variant={"h5"} component={"h1"} >Console</Typography>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={12}>
                         {PartnerVideo}

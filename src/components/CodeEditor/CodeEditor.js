@@ -1,8 +1,10 @@
 import React, {useState} from "react";
 import Editor from 'react-simple-code-editor';
-import { highlight, languages } from 'prismjs/components/prism-core';
+import {highlight, languages} from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
+import {InputLabel, MenuItem, Select} from "@material-ui/core";
+import FormControl from "@material-ui/core/FormControl";
 
 export const CodeEditor = () => {
 
@@ -10,8 +12,31 @@ export const CodeEditor = () => {
          
      return a + b;
 }`);
+    const [language, setLanguage] = useState('JavaScript');
+
+    const handleChange = (event) => {
+        setLanguage(event.target.value);
+    };
     return (
-        <Editor
+        <>
+            <FormControl classes={{
+                minWidth: 120
+            }}>
+                <Select
+                    labelId="simple-select-label"
+                    id="simple-select"
+                    value={language}
+                    onChange={handleChange}
+                    autoWidth={true}
+                >
+                    <MenuItem value={"JavaScript"}>JavaScript</MenuItem>
+                    <MenuItem value={"Python"}>Python</MenuItem>
+                    <MenuItem value={"Java"}>Java</MenuItem>
+                </Select>
+            </FormControl>
+            <InputLabel id="simple-select-label">Language</InputLabel>
+
+            <Editor
             value={code}
             onValueChange={code => setCode(code)}
             highlight={code => highlight(code, languages.js)}
@@ -21,5 +46,8 @@ export const CodeEditor = () => {
                 fontSize: 12,
             }}
         />
+
+        </>
+
     );
 }
