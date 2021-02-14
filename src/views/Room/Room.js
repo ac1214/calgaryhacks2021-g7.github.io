@@ -6,7 +6,7 @@ import io from "socket.io-client";
 import Button from "@material-ui/core/Button";
 import {CodeEditor} from "../../components/CodeEditor/CodeEditor";
 import Grid from "@material-ui/core/Grid";
-import {Typography} from "@material-ui/core";
+import {Box, Typography} from "@material-ui/core";
 
 export default function Room() {
     const [yourID, setYourID] = useState("");
@@ -113,15 +113,35 @@ export default function Room() {
     }
 
     return (
-        <div>
+        <Box>
             <Grid container direction={"row"}>
                 <GridItem xs={6} sm={6} md={6}>
-
                     <Typography variant={"h5"} component={"h1"} >Prompt Goes here</Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Eaque enim et reprehenderit voluptatum? Amet, cupiditate
-                    dolorum ea exercitationem expedita id iste minus officia
-                    officiis quibusdam saepe sed tempore, temporibus tenetur.
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        Eaque enim et reprehenderit voluptatum? Amet, cupiditate
+                        dolorum ea exercitationem expedita id iste minus officia
+                        officiis quibusdam saepe sed tempore, temporibus tenetur.
+                        <br/>
+                        <br/>
+                        <br/>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        Eaque enim et reprehenderit voluptatum? Amet, cupiditate
+                        dolorum ea exercitationem expedita id iste minus officia
+                        officiis quibusdam saepe sed tempore, temporibus tenetur.
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        Eaque enim et reprehenderit voluptatum? Amet, cupiditate
+                        dolorum ea exercitationem expedita id iste minus officia
+                        officiis quibusdam saepe sed tempore, temporibus tenetur.
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        Eaque enim et reprehenderit voluptatum? Amet, cupiditate
+                        dolorum ea exercitationem expedita id iste minus officia
+                        officiis quibusdam saepe sed tempore, temporibus tenetur.
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        Eaque enim et reprehenderit voluptatum? Amet, cupiditate
+                        dolorum ea exercitationem expedita id iste minus officia
+                        officiis quibusdam saepe sed tempore, temporibus tenetur.
+                    </p>
                 </GridItem>
                 <GridItem xs={6} sm={6} md={6}>
                     <GridItem xs={12} sm={12} md={12}>
@@ -152,6 +172,6 @@ export default function Room() {
                     {incomingCall}
                 </GridItem>
             </Grid>
-        </div>
+        </Box>
     );
 }

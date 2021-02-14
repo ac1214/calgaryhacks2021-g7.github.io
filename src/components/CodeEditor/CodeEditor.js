@@ -35,7 +35,6 @@ export const CodeEditor = () => {
                 </Select>
             </FormControl>
             <InputLabel id="simple-select-label">Language</InputLabel>
-
             <Editor
             value={code}
             onValueChange={code => setCode(code)}
