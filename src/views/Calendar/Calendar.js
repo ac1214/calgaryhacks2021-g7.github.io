@@ -5,6 +5,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import {Button, Dialog} from "@material-ui/core";
 import "./Calendar.css";
+import SubjectOptions from "./SubjectOptions";
 
 let valid_slots = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
 const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -48,12 +49,9 @@ export default function Calendar () {
             date: eventDate,
             dateString: completeTime
         });
-    }
 
-    // const handleConfirmClick = () => {
-    //     // Submit matchmaking post request
-    //     alert(chosenTime.date);
-    // }
+        handleModalOpen();
+    }
 
     return (
         <div className="booking">
@@ -88,16 +86,13 @@ export default function Calendar () {
                 })}
                 editable={true}
             />
-            <Button className="confirm-button" variant="contained" color="primary" onClick={()=>handleModalOpen()}>
-                {"CONFIRM & SCHEDULE:  " + chosenTime.dateString}
-            </Button>
             <Dialog
                 open={modalOpen}
                 onClose={handleModalClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >
-                <h1>Hello World</h1>
+                <SubjectOptions currDate={chosenTime} handleCloseModal={handleModalClose}/>
             </Dialog>
         </div>
     )
