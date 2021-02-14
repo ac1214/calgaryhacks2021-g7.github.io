@@ -158,7 +158,7 @@ export default function Room() {
                     <Grid container justify="center" spacing={2}>
                         <Grid item>
                             <Typography variant={"h5"} component={"h1"}>
-                                Prompt Goes here
+                                Question 759
                             </Typography>
                             <Paper className={classes.paper}>
                                 <p>
