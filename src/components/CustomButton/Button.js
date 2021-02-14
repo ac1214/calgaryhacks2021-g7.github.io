@@ -44,7 +44,7 @@ export default function RegularButton(props) {
 
   return (
     <Button onClick={() => {
-      props.senddatatoparent(props.session_id);
+      props.senddatatoparent(props.session_id + ',' + props.button_type)
     }} {...rest} classes={muiClasses} className={btnClasses}>
       {children}
     </Button>

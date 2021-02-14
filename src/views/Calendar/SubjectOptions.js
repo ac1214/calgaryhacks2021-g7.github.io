@@ -1,29 +1,64 @@
-import React, {useState} from "react";
-import {Button} from "@material-ui/core";
+import React, { useState } from "react";
+import { Button } from "@material-ui/core";
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import { makeStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
 import "./SubjectOptions.css";
 
-export default function SubjectOptions({currDate, handleCloseModal}){
-    const [chosenSubject, setChosenSubject] = useState("");
+const useStyles = makeStyles((theme) => ({
+    button: {
+        display: 'block',
+        marginTop: theme.spacing(2),
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
+}));
 
+export default function SubjectOptions({ currDate, subhandlemodalclose }) {
+    const classes = useStyles();
+    const [subject, setSubject] = React.useState('');
+    const [open, setOpen] = React.useState(false);
+
+    const handleChange = (event) => {
+        setSubject(event.target.value);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
     return (
         <div className="subject-options">
-            <div style={{height: "70%", width: "80%", display: "flex", flexWrap: "wrap", alignContent: "center",
-                justifyContent: "center"}}>
-                <div className="course" name="LEETCODE">
-                    <h1>Datastructures and Algorithms</h1>
-                </div>
-                <div className="course" name="LSAT">
-                    <h1>LSAT</h1>
-                </div>
-                <div className="course" name="MCAT">
-                    <h1>MCAT</h1>
-                </div>
-                <div className="course" name="ANIME">
-                    <h1>Anime</h1>
-                </div>
-            </div>
-            <Button className="confirm-button" variant="contained" color="primary" onClick={()=>handleCloseModal()}>
-                {"CONFIRM & SCHEDULE:  " + currDate.dateString}
+            <FormControl className={classes.formControl}>
+                <InputLabel id="demo-controlled-open-select-label">Subject</InputLabel>
+                <Select
+                    labelId="demo-controlled-open-select-label"
+                    id="demo-controlled-open-select"
+                    open={open}
+                    onClose={handleClose}
+                    onOpen={handleOpen}
+                    value={subject}
+                    onChange={handleChange}
+                >
+                    <MenuItem value="">
+                        <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={"MCAT"}>MCAT</MenuItem>
+                    <MenuItem value={"LSAT"}>LSAT</MenuItem>
+                    <MenuItem value={"Datastructures and Algorithms"}>Datastructures and Algorithms</MenuItem>
+                    <MenuItem value={"Anime"}>Anime</MenuItem>
+                </Select>
+            </FormControl>
+            <Button className="confirm-button" variant="contained" color="primary" onClick={() => {
+                                                                                                    subhandlemodalclose(subject)}}>
+                {"CONFIRM & SCHEDULE:  " + currDate}
             </Button>
         </div>
     )
