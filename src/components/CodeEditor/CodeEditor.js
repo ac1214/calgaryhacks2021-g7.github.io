@@ -36,8 +36,8 @@ export const CodeEditor = () => {
             <InputLabel id="simple-select-label">Language</InputLabel>
             <Editor
             value={code}
-            onValueChange={code => setCode(code)}
-            highlight={code => highlight(code, languages.js)}
+            onValueChange={setCode}
+            highlight={code => highlight(code, languages.js, 'javascript')}
             padding={20}
             minLength={200}
             style={{
