@@ -50,7 +50,7 @@ export default function Calendar() {
         };
 
         async function fetchMyAPI() {
-            let response = await fetch("http://127.0.0.1:5000/schedule_session", requestOptions)
+            let response = await fetch("https://operating-land-304706.wm.r.appspot.com/schedule_session", requestOptions)
             response = await response.json()
             console.log(response)
             return response
