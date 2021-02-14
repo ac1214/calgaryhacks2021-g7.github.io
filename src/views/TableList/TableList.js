@@ -101,6 +101,7 @@ export default function TableList() {
   const [questionData, setQuestionData] = React.useState("");
   const [table, setTableData] = useState(null);
   const [openload, setOpenload] = React.useState(false);
+  const [users, setUsers] = React.useState(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -173,9 +174,19 @@ export default function TableList() {
       setOpenload(false);
       setTableData(response)
     }
+
+    async function fetchUsers() {
+      let response = await fetch("https://operating-land-304706.wm.r.appspot.com/cancel_session?user_id=a9A5KGO2lVco7KWs0pdJ245BXzy1", {
+        method: 'GET',
+        redirect: 'follow',
+      })
+      response = await response.json()
+      setUsers(response)
+    }
+
     fetchMyAPI()
-    
-  }, [user]);
+    fetchUsers()
+  }, []);
 
   function formatDate(date) {
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
@@ -206,11 +217,12 @@ export default function TableList() {
         if(table[key].user_two == "") {
           table[key].user_two = "unassigned"
         }
+
         let otherUser = table[key].user_two;
         if (otherUser === user.uid) {
           otherUser = table[key].user_one;
         }
-        past.push([formatDate(date), table[key].course, otherUser, add, view]);
+        past.push([formatDate(date), table[key].course, users.otherUser, add, view]);
         visited = true;
       }
       if (!visited) {
@@ -221,11 +233,12 @@ export default function TableList() {
           if(table[key].user_two == "") {
             table[key].user_two = "unassigned"
           }
+
           let otherUser = table[key].user_two;
           if (otherUser === user.uid) {
             otherUser = table[key].user_one;
           }
-        upcoming.push([formatDate(date), table[key].course, otherUser, view, cancel])
+        upcoming.push([formatDate(date), table[key].course, users.otherUser, view, cancel])
       }
     }
   }
