@@ -206,7 +206,11 @@ export default function TableList() {
         if(table[key].user_two == "") {
           table[key].user_two = "unassigned"
         }
-        past.push([formatDate(date), table[key].course, table[key].user_two, add, view]);
+        let otherUser = table[key].user_two;
+        if (otherUser === user.uid) {
+          otherUser = table[key].user_one;
+        }
+        past.push([formatDate(date), table[key].course, otherUser, add, view]);
         visited = true;
       }
       if (!visited) {
@@ -217,7 +221,11 @@ export default function TableList() {
           if(table[key].user_two == "") {
             table[key].user_two = "unassigned"
           }
-        upcoming.push([formatDate(date), table[key].course, table[key].user_two, view, cancel])
+          let otherUser = table[key].user_two;
+          if (otherUser === user.uid) {
+            otherUser = table[key].user_one;
+          }
+        upcoming.push([formatDate(date), table[key].course, otherUser, view, cancel])
       }
     }
   }
