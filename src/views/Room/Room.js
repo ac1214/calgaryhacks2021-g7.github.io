@@ -5,6 +5,8 @@ import Peer from "simple-peer";
 import io from "socket.io-client";
 import Button from "@material-ui/core/Button";
 import {CodeEditor} from "../../components/CodeEditor/CodeEditor";
+import Grid from "@material-ui/core/Grid";
+import {Typography} from "@material-ui/core";
 
 export default function Room() {
     const [yourID, setYourID] = useState("");
@@ -112,16 +114,24 @@ export default function Room() {
 
     return (
         <div>
-            <GridContainer>
-                <GridItem>
-                    <h1>Code Editor</h1>
-                    <CodeEditor />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                    {PartnerVideo}
+            <Grid container direction={"row"}>
+                <GridItem xs={6} sm={6} md={6}>
+
+                    <Typography variant={"h5"} component={"h1"} >Prompt Goes here</Typography>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Eaque enim et reprehenderit voluptatum? Amet, cupiditate
+                    dolorum ea exercitationem expedita id iste minus officia
+                    officiis quibusdam saepe sed tempore, temporibus tenetur.
                 </GridItem>
                 <GridItem xs={6} sm={6} md={6}>
-                    {UserVideo}
+                    <GridItem xs={12} sm={12} md={12}>
+                        <h1>Code Editor</h1>
+                        <CodeEditor />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={12}>
+                        {PartnerVideo}
+                        {UserVideo}
+                    </GridItem>
                 </GridItem>
                 {
                     Object.keys(users).map(key => {
@@ -138,7 +148,7 @@ export default function Room() {
                 <GridItem xs={12} sm={12} md={6}>
                     {incomingCall}
                 </GridItem>
-            </GridContainer>
+            </Grid>
         </div>
     );
 }
