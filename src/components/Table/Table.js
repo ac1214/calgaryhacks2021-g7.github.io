@@ -23,7 +23,7 @@ export default function CustomTable(props) {
             <TableRow className={classes.tableHeadRow}>
               {tableHead.map((prop, key) => {
                 return (
-                  <TableCell
+                  <TableCell style={{fontSize: "20px", fontWeight: "bold"}}
                     className={classes.tableCell + " " + classes.tableHeadCell}
                     key={key}
                   >
@@ -40,7 +40,8 @@ export default function CustomTable(props) {
               <TableRow key={key} className={classes.tableBodyRow}>
                 {prop.map((prop, key) => {
                   return (
-                    <TableCell className={classes.tableCell} key={key}>
+                    <TableCell style={{fontSize: "15px"}}
+                    className={classes.tableCell} key={key}>
                       {prop}
                     </TableCell>
                   );

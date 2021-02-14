@@ -26,26 +26,52 @@ function tConvert(time) {
 
 export default function Calendar() {
     const { user } = useContext(AuthContext);
-    const [chosenTime, setChosenTime] = useState({
-        date: null,
-        dateString: "",
-        subject: "Datastructures and Algorithms"
-    });
+    // const [chosenTime, setChosenTime] = useState({
+    //     date: null,
+    //     dateString: "",
+    //     subject: "Datastructures and Algorithms"
+    // });
+    const [date, setDate] = React.useState(null);
+    const [datestring, setDateString] = useState(null);
+    const [subject, setSubject] = useState("");  
     const [modalOpen, setModalOpen] = useState(false);
 
     const handleModalOpen = () => {
         setModalOpen(true);
     }
 
+    const subHandleModalClose = (subject) => {
+        setSubject(subject)
+        setModalOpen(false);
+        const requestOptions = {
+            method: 'POST',
+            redirect: 'follow',
+            body: JSON.stringify({
+                "user_id": user.uid,
+                "meeting_time": date,
+                "course": subject
+            })
+        };
+
+        async function fetchMyAPI() {
+            let response = await fetch("https://operating-land-304706.wm.r.appspot.com/schedule_session", requestOptions)
+            response = await response.json()
+            console.log(response)
+            return response
+        }
+
+        fetchMyAPI()
+    }
+
     const handleModalClose = () => {
         setModalOpen(false);
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            redirect: 'follow',
             body: JSON.stringify({
                 "user_id": user.uid,
-                "meeting_time": chosenTime.date,
-                "course": "LSAT"
+                "meeting_time": date,
+                "course": subject
             })
         };
 
@@ -66,11 +92,8 @@ export default function Calendar() {
         let day = eventDate.getDate().toString();
         let hour = tConvert(eventDate.getHours());
         let completeTime = month + ' ' + day + ' @ ' + hour;
-
-        setChosenTime({
-            date: eventDate,
-            dateString: completeTime
-        });
+        setDate(eventDate);
+        setDateString(completeTime);
 
         handleModalOpen();
     }
@@ -114,7 +137,7 @@ export default function Calendar() {
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >
-                <SubjectOptions currDate={chosenTime} handleCloseModal={handleModalClose} />
+                <SubjectOptions currDate={datestring} subhandlemodalclose={subHandleModalClose} />
             </Dialog>
         </div>
     )

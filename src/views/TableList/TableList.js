@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 // @material-ui/core components
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 // core components
@@ -20,35 +20,14 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import ReactMarkdown from 'react-markdown'
-
+import { AuthContext } from "../../context/auth-context";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Backdrop from '@material-ui/core/Backdrop';
 
 const styles = {
-  cardCategoryWhite: {
-    "&,& a,& a:hover,& a:focus": {
-      color: "rgba(255,255,255,.62)",
-      margin: "0",
-      fontSize: "14px",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    "& a,& a:hover,& a:focus": {
-      color: "#FFFFFF"
-    }
-  },
-  cardTitleWhite: {
-    color: "#FFFFFF",
-    marginTop: "0px",
-    minHeight: "auto",
-    fontWeight: "300",
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: "3px",
-    textDecoration: "none",
-    "& small": {
-      color: "#777",
-      fontSize: "65%",
-      fontWeight: "400",
-      lineHeight: "1"
-    }
+  
+  backdrop: {
+    color: '#fff',
   }
 };
 
@@ -81,12 +60,47 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles((theme) => ({
+  cardCategoryWhite: {
+    "&,& a,& a:hover,& a:focus": {
+      color: "rgba(255,255,255,.62)",
+      margin: "0",
+      fontSize: "14px",
+      marginTop: "0",
+      marginBottom: "0"
+    },
+    "& a,& a:hover,& a:focus": {
+      color: "#FFFFFF"
+    }
+  },
+  cardTitleWhite: {
+    color: "#FFFFFF",
+    marginTop: "0px",
+    minHeight: "auto",
+    fontWeight: "300",
+    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    marginBottom: "3px",
+    textDecoration: "none",
+    "& small": {
+      color: "#777",
+      fontSize: "65%",
+      fontWeight: "400",
+      lineHeight: "1"
+    }
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
+}));
+
 
 export default function TableList() {
+  const { user } = useContext(AuthContext);
   const [open, setOpen] = React.useState(false);
   const [questionData, setQuestionData] = React.useState("");
   const [table, setTableData] = useState(null);
+  const [openload, setOpenload] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -110,11 +124,36 @@ export default function TableList() {
   });
 
   const sendDataToParent = (session_id) => { // the callback. Use a better name
-    setQuestionData(table[session_id].formatted_questions);
-    // console.log(table[session_id].formatted_questions);
-    handleClickOpen();
+    var res = session_id.split(",");
+    if(res[1] == 'view') {
+      setQuestionData(table[res[0]].formatted_questions);
+      // console.log(table[session_id].formatted_questions);
+      handleClickOpen();
+    }
+    if(res[1] == 'cancel') {
+      cancelSession(res[0]);
+    }
   };
 
+  const cancelSession = (session_id) => { // the callback. Use a better name\
+    setOpenload(true);
+    async function fetchMyAPI() {
+      let response = await fetch("http://0.0.0.0:5000/cancel_session?user_id=a9A5KGO2lVco7KWs0pdJ245BXzy1", {
+        method: 'DELETE',
+        redirect: 'follow',
+        body: JSON.stringify({
+          "user_id": user.uid,
+          "session_id": session_id
+        })
+      })
+      response = await response.json()
+      setOpenload(false);
+      setTableData(response)
+
+    }
+    fetchMyAPI()
+
+  };
 
   var requestOptions = {
     method: 'GET',
@@ -122,24 +161,56 @@ export default function TableList() {
   };
 
   useEffect(() => {
+    setOpenload(true);
+
     async function fetchMyAPI() {
-      let response = await fetch("http://0.0.0.0:5000/get_all_sessions?user_id=James", requestOptions)
+      let response = await fetch("http://0.0.0.0:5000/get_all_sessions?user_id=a9A5KGO2lVco7KWs0pdJ245BXzy1", requestOptions)
       response = await response.json()
+      setOpenload(false);
       setTableData(response)
     }
-
     fetchMyAPI()
+    
   }, []);
 
+  function formatDate(date) {
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+    var date = new Date(date)
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear() + "  " + strTime;
+  }
 
-  var arr = [];
+
+  // Split table into before and past
+  var upcoming = [];
+  var past = [];
   if (table != null) {
     for(const key in table) {
-      const view = <RegularButton variant="outlined" color="primary" session_id={table[key].id}
-        senddatatoparent={sendDataToParent}>View</RegularButton>
-      const cancel = <RegularButton variant="outlined" color="secondary" onClick={handleClickOpen}>Cancel</RegularButton>
-      arr.push([table[key].meeting_time, table[key].course, table[key].user_two, view, cancel])
+      var visited = false;
+      var date = Date.parse(table[key].meeting_time);
+      // Previous time
+      if(date < Date.now()) {
+        const view = <RegularButton variant="outlined" button_type="view"  color="primary" session_id={table[key].id}
+        senddatatoparent={sendDataToParent}>View Feedback</RegularButton>
+        const add = <RegularButton color="primary">Add Friend</RegularButton>
 
+        past.push([formatDate(date), table[key].course, table[key].user_two, add, view]);
+        visited = true;
+      }
+      if (!visited) {
+        const view = <RegularButton variant="outlined" button_type="view"  color="primary" session_id={table[key].id}
+        senddatatoparent={sendDataToParent}>View</RegularButton>
+        const cancel = <RegularButton variant="outlined" color="secondary" button_type="cancel" session_id={table[key].id}
+          senddatatoparent={sendDataToParent}>Cancel</RegularButton>
+  
+        upcoming.push([formatDate(date), table[key].course, table[key].user_two, view, cancel])
+      }
     }
   }
 
@@ -150,8 +221,8 @@ export default function TableList() {
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Upcoming Practice Sessions</h4>
-            <p className={classes.cardCategoryWhite}>
+            <h4 className={classes.cardTitleWhite} style={{fontSize: "20px", fontWeight: "bold"}}>Upcoming Practice Sessions</h4>
+            <p className={classes.cardCategoryWhite} style={{fontSize: "15px"}}>
               View your upcoming practice sessions
             </p>
           </CardHeader>
@@ -159,7 +230,7 @@ export default function TableList() {
             <Table
               tableHeaderColor="primary"
               tableHead={["When", "Class", "Partner", "Questions You'll Ask", "Action"]}
-              tableData={arr}
+              tableData={upcoming}
             />
           </CardBody>
         </Card>
@@ -167,23 +238,16 @@ export default function TableList() {
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Past Practice Interviews</h4>
-            <p className={classes.cardCategoryWhite}>
+            <h4 className={classes.cardTitleWhite}  style={{fontSize: "20px", fontWeight: "bold"}}>Past Practice Interviews</h4>
+            <p className={classes.cardCategoryWhite} style={{fontSize: "15px"}}>
               Here is a subtitle for this table
             </p>
           </CardHeader>
           <CardBody>
             <Table
               tableHeaderColor="primary"
-              tableHead={["Date", "Class", "Question", "Connect", "Peer Feedback"]}
-              tableData={[
-                ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
-                ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
-                ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
-                ["Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
-                ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
-                ["Mason Porter", "Chile", "Gloucester", "$78,615"]
-              ]}
+              tableHead={["Date", "Class", "Questions", "Connect", "Peer Feedback"]}
+              tableData={past}
             />
           </CardBody>
         </Card>
@@ -203,6 +267,9 @@ export default function TableList() {
           </Button>
         </DialogActions>
       </Dialog>
+      <Backdrop className={classes.backdrop} open={openload} onClick={handleClose}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </GridContainer>
   );
 }
