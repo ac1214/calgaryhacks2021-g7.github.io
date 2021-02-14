@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import GridItem from "components/Grid/GridItem.js";
 import Peer from "simple-peer";
 import io from "socket.io-client";
@@ -7,6 +7,7 @@ import { CodeEditor } from "../../components/CodeEditor/CodeEditor";
 import Grid from "@material-ui/core/Grid";
 import { Box, Typography } from "@material-ui/core";
 import Doc from "components/Doc/Doc";
+import {AuthContext} from "../../context/auth-context";
 
 export default function Room() {
   const [yourID, setYourID] = useState("");
@@ -75,6 +76,7 @@ export default function Room() {
 
     socket.current.on("callAccepted", (signal) => {
       setCallAccepted(true);
+      setReceivingCall(false);
       peer.signal(signal);
     });
   };
@@ -94,7 +96,8 @@ export default function Room() {
     });
 
     peer.signal(callerSignal);
-    incomingCall = <div></div>;
+    incomingCall = null;
+    setReceivingCall(false);
   };
 
   let UserVideo;
@@ -110,10 +113,10 @@ export default function Room() {
   let incomingCall;
   if (receivingCall) {
     incomingCall = (
-      <div>
-        <h1>{caller} is calling you</h1>
-        <button onClick={acceptCall}>Accept</button>
-      </div>
+      <>
+        <GridItem xs={12} sm={12} md={5}><Typography component={"h3"}>{caller} is asking to join you.</Typography></GridItem>
+        <GridItem xs={12} sm={12} md={5}><button onClick={acceptCall}>Accept</button></GridItem>
+      </>
     );
   }
 
@@ -148,10 +151,29 @@ export default function Room() {
             iste minus officia officiis quibusdam saepe sed tempore, temporibus
             tenetur.
           </p>
-          <GridItem xs={6} sm={6} md={6}>
+          <GridItem xs={12} sm={12} md={12}>
             <Typography variant={"h5"} component={"h1"}>Whiteboard</Typography>
             <Doc />
           </GridItem>
+          <GridItem xs={12} sm={12} md={12}>
+            {incomingCall}
+          </GridItem>
+            {Object.keys(users).map((key) => {
+              if (key === yourID) {
+                return null;
+              }
+              return (
+                  <GridItem xs={6} sm={6} md={4}>
+                    <Button
+                        variant={"outlined"}
+                        color={"primary"}
+                        onClick={() => callPeer(key)}
+                    >
+                      JOIN {key}
+                    </Button>
+                  </GridItem>
+              );
+            })}
         </GridItem>
         <GridItem xs={6} sm={6} md={6}>
           <GridItem xs={12} sm={12} md={12}>
@@ -169,25 +191,6 @@ export default function Room() {
             {PartnerVideo}
             {UserVideo}
           </GridItem>
-        </GridItem>
-        {Object.keys(users).map((key) => {
-          if (key === yourID) {
-            return null;
-          }
-          return (
-            <GridItem>
-              <Button
-                variant={"outlined"}
-                color={"primary"}
-                onClick={() => callPeer(key)}
-              >
-                Call {key}
-              </Button>
-            </GridItem>
-          );
-        })}
-        <GridItem xs={12} sm={12} md={6}>
-          {incomingCall}
         </GridItem>
       </Grid>
     </Box>
