@@ -4,7 +4,7 @@
   "description": "Material Dashboard React. Coded by Creative Tim",
   "private": false,
   "main": "dist/index.js",
-  "homepage": "https://calgaryhacks2021-g7.github.io",
+  "homepage": "https://creativetimofficial.github.io/material-dashboard-react/#/dashboard",
   "dependencies": {
     "@fullcalendar/core": "^5.5.1",
     "@fullcalendar/daygrid": "^5.5.0",
