@@ -227,7 +227,7 @@ export default function TableList() {
           name = "Unassigned"
         }
         if (otherUser != null) {
-          users[otherUser.toString()]
+          name = users[otherUser.toString()]
         }
         past.push([formatDate(date), table[key].course, users[otherUser.toString()], add, view]);
         visited = true;
@@ -249,7 +249,7 @@ export default function TableList() {
           name = "Unassigned"
         }
         if (otherUser != null) {
-          users[otherUser.toString()]
+          name = users[otherUser.toString()]
         }
         upcoming.push([formatDate(date), table[key].course, name, view, cancel])
       }
