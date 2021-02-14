@@ -164,7 +164,7 @@ export default function TableList() {
     setOpenload(true);
 
     async function fetchMyAPI() {
-      let response = await fetch("http://0.0.0.0:5000/get_all_sessions?user_id=a9A5KGO2lVco7KWs0pdJ245BXzy1", requestOptions)
+      let response = await fetch("https://operating-land-304706.wm.r.appspot.com/get_all_sessions?user_id=a9A5KGO2lVco7KWs0pdJ245BXzy1", requestOptions)
       response = await response.json()
       setOpenload(false);
       setTableData(response)
@@ -199,7 +199,9 @@ export default function TableList() {
         const view = <RegularButton variant="outlined" button_type="view"  color="primary" session_id={table[key].id}
         senddatatoparent={sendDataToParent}>View Feedback</RegularButton>
         const add = <RegularButton color="primary">Add Friend</RegularButton>
-
+        if(table[key].user_two == "") {
+          table[key].user_two = "unassigned"
+        }
         past.push([formatDate(date), table[key].course, table[key].user_two, add, view]);
         visited = true;
       }
@@ -208,7 +210,9 @@ export default function TableList() {
         senddatatoparent={sendDataToParent}>View</RegularButton>
         const cancel = <RegularButton variant="outlined" color="secondary" button_type="cancel" session_id={table[key].id}
           senddatatoparent={sendDataToParent}>Cancel</RegularButton>
-  
+          if(table[key].user_two == "") {
+            table[key].user_two = "unassigned"
+          }
         upcoming.push([formatDate(date), table[key].course, table[key].user_two, view, cancel])
       }
     }
