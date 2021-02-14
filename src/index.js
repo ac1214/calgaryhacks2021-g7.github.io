@@ -22,5 +22,19 @@ import ReactDOM from "react-dom";
 import App from "./components/App/App";
 
 import "assets/css/material-dashboard-react.css?v=1.9.0";
+import { Component } from "react";
+import { AuthProvider } from "context/auth-context";
+import { BrowserRouter } from "react-router-dom";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const render = (Component) => {
+  return ReactDOM.render(
+    <AuthProvider>
+      <BrowserRouter basename="/">
+        <Component />
+      </BrowserRouter>
+    </AuthProvider>,
+    document.getElementById("root")
+  );
+};
+
+render(App);
