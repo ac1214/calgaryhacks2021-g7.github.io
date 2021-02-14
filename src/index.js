@@ -29,7 +29,7 @@ import { BrowserRouter } from "react-router-dom";
 const render = (Component) => {
   return ReactDOM.render(
     <AuthProvider>
-      <BrowserRouter basename="/">
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Component />
       </BrowserRouter>
     </AuthProvider>,
