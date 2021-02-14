@@ -176,7 +176,7 @@ export default function TableList() {
     }
 
     async function fetchUsers() {
-      let response = await fetch("https://operating-land-304706.wm.r.appspot.com/cancel_session?user_id=a9A5KGO2lVco7KWs0pdJ245BXzy1", {
+      let response = await fetch("https://operating-land-304706.wm.r.appspot.com/get_all_users", {
         method: 'GET',
         redirect: 'follow',
       })
