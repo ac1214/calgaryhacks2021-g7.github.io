@@ -27,7 +27,7 @@ const dashboardRoutes = [
   // },
   {
     path: "/table",
-    name: "Table List",
+    name: "Sessions",
     icon: "content_paste",
     component: TableList,
     layout: "",

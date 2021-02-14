@@ -139,7 +139,7 @@ export default function TableList() {
   const cancelSession = (session_id) => { // the callback. Use a better name\
     setOpenload(true);
     async function fetchMyAPI() {
-      let response = await fetch("https://operating-land-304706.wm.r.appspot.com/cancel_session?user_id=" + user.uid, {
+      let response = await fetch("https://operating-land-304706.wm.r.appspot.com/cancel_session", {
         method: 'DELETE',
         redirect: 'follow',
         body: JSON.stringify({
@@ -186,7 +186,7 @@ export default function TableList() {
 
     fetchMyAPI()
     fetchUsers()
-  }, []);
+  }, [user]);
 
   function formatDate(date) {
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
@@ -218,11 +218,7 @@ export default function TableList() {
           table[key].user_two = "unassigned"
         }
 
-        let otherUser = table[key].user_two;
-        if (otherUser === user.uid) {
-          otherUser = table[key].user_one;
-        }
-        past.push([formatDate(date), table[key].course, users.otherUser, add, view]);
+        past.push([formatDate(date), table[key].course, table[key].user_one, add, view]);
         visited = true;
       }
       if (!visited) {
@@ -234,11 +230,7 @@ export default function TableList() {
             table[key].user_two = "unassigned"
           }
 
-          let otherUser = table[key].user_two;
-          if (otherUser === user.uid) {
-            otherUser = table[key].user_one;
-          }
-        upcoming.push([formatDate(date), table[key].course, users.otherUser, view, cancel])
+        upcoming.push([formatDate(date), table[key].course, table[key].user_one, view, cancel])
       }
     }
   }
