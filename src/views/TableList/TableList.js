@@ -172,7 +172,7 @@ export default function TableList() {
     }
     fetchMyAPI()
     
-  }, []);
+  }, [user]);
 
   function formatDate(date) {
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
