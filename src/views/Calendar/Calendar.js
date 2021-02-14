@@ -1,12 +1,12 @@
-import React, {useState, useEffect, useRef, useContext} from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import {Button, Dialog} from "@material-ui/core";
+import { Button, Dialog } from "@material-ui/core";
 import "./Calendar.css";
 import SubjectOptions from "./SubjectOptions";
-import {AuthContext} from "../../context/auth-context";
+import { AuthContext } from "../../context/auth-context";
 
 let valid_slots = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
 const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -24,8 +24,8 @@ function tConvert(time) {
     }
 }
 
-export default function Calendar () {
-    const {user} = useContext(AuthContext);
+export default function Calendar() {
+    const { user } = useContext(AuthContext);
     const [chosenTime, setChosenTime] = useState({
         date: null,
         dateString: "",
@@ -39,19 +39,25 @@ export default function Calendar () {
 
     const handleModalClose = () => {
         setModalOpen(false);
-
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 "user_id": user.uid,
                 "meeting_time": chosenTime.date,
-                "course": chosenTime.subject
+                "course": "LSAT"
             })
         };
 
-        fetch('https://operating-land-304706.wm.r.appspot.com/schedule_session', requestOptions)
-            .then(response => console.log(response.json()));
+        async function fetchMyAPI() {
+            let response = await fetch("http://127.0.0.1:5000/schedule_session", requestOptions)
+            response = await response.json()
+            console.log(response)
+            return response
+        }
+
+        fetchMyAPI()
+
     }
 
     const handleEventClick = (event) => {
@@ -108,7 +114,7 @@ export default function Calendar () {
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >
-                <SubjectOptions currDate={chosenTime} handleCloseModal={handleModalClose}/>
+                <SubjectOptions currDate={chosenTime} handleCloseModal={handleModalClose} />
             </Dialog>
         </div>
     )
