@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -42,13 +42,33 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export default function TableList() {
+
+  const [tableData, setTableData] = useState(null);
+
+  var requestOptions = {
+    method: 'GET',
+    redirect: 'follow'
+  };
+  
+  useEffect(() => {
+    // GET request using fetch inside useEffect React hook
+    fetch("https://operating-land-304706.wm.r.appspot.com/get_all_sessions?user_id=James", requestOptions)
+          .then(response => response.json())
+          // .then(data => setTableData(data))
+          .then(result => console.log(result))
+          .catch(error => console.log('error', error));
+
+    // empty dependency array means this effect will only run once (like componentDidMount in classes)
+    }, []);
+
   const classes = useStyles();
   return (
     <GridContainer>
+      {/* <div> HEllo: {tableData} </div> */}
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Simple Table</h4>
+            <h4 className={classes.cardTitleWhite}>Upcoming Practice Interviews</h4>
             <p className={classes.cardCategoryWhite}>
               Here is a subtitle for this table
             </p>
@@ -56,8 +76,8 @@ export default function TableList() {
           <CardBody>
             <Table
               tableHeaderColor="primary"
-              tableHead={["Name", "Country", "City", "Salary"]}
-              tableData={[
+              tableHead={["When", "Class", "Topic", "Questions You'll Ask", "Action"]}
+              tableData={[  
                 ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
                 ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
                 ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
@@ -70,11 +90,9 @@ export default function TableList() {
         </Card>
       </GridItem>
       <GridItem xs={12} sm={12} md={12}>
-        <Card plain>
-          <CardHeader plain color="primary">
-            <h4 className={classes.cardTitleWhite}>
-              Table on Plain Background
-            </h4>
+        <Card>
+          <CardHeader color="primary">
+            <h4 className={classes.cardTitleWhite}>Past Practice Interviews</h4>
             <p className={classes.cardCategoryWhite}>
               Here is a subtitle for this table
             </p>
@@ -82,26 +100,14 @@ export default function TableList() {
           <CardBody>
             <Table
               tableHeaderColor="primary"
-              tableHead={["ID", "Name", "Country", "City", "Salary"]}
+              tableHead={["Date", "Class", "Question", "Connect", "Peer Feedback"]}
               tableData={[
-                ["1", "Dakota Rice", "$36,738", "Niger", "Oud-Turnhout"],
-                ["2", "Minerva Hooper", "$23,789", "Curaçao", "Sinaai-Waas"],
-                ["3", "Sage Rodriguez", "$56,142", "Netherlands", "Baileux"],
-                [
-                  "4",
-                  "Philip Chaney",
-                  "$38,735",
-                  "Korea, South",
-                  "Overland Park"
-                ],
-                [
-                  "5",
-                  "Doris Greene",
-                  "$63,542",
-                  "Malawi",
-                  "Feldkirchen in Kärnten"
-                ],
-                ["6", "Mason Porter", "$78,615", "Chile", "Gloucester"]
+                ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
+                ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
+                ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
+                ["Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
+                ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
+                ["Mason Porter", "Chile", "Gloucester", "$78,615"]
               ]}
             />
           </CardBody>

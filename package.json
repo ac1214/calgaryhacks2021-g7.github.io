@@ -6,6 +6,11 @@
   "main": "dist/index.js",
   "homepage": "https://calgaryhacks2021-g7.github.io",
   "dependencies": {
+    "@fullcalendar/core": "^5.5.1",
+    "@fullcalendar/daygrid": "^5.5.0",
+    "@fullcalendar/interaction": "^5.5.0",
+    "@fullcalendar/react": "^5.5.0",
+    "@fullcalendar/timegrid": "^5.5.1",
     "@material-ui/core": "4.10.0",
     "@material-ui/icons": "4.9.1",
     "chartist": "0.10.1",
@@ -46,6 +51,7 @@
   "bugs": {
     "url": "https://github.com/creativetimofficial/material-dashboard-react/issues"
   },
+  "homepage": "https://creativetimofficial.github.io/material-dashboard-react/#/dashboard",
   "optionalDependencies": {
     "@types/googlemaps": "3.39.6",
     "@types/markerclustererplus": "2.1.33",

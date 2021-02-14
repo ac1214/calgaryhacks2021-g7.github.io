@@ -40,15 +40,6 @@ const switchRoutes = (
 const useStyles = makeStyles(styles);
 
 export default function Admin({ ...rest }) {
-  var requestOptions = {
-    method: 'GET',
-    redirect: 'follow'
-  };
-  
-  fetch("https://operating-land-304706.wm.r.appspot.com/get_all_sessions?user_id=James", requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
   // styles
   const classes = useStyles();
   // ref to help us initialize PerfectScrollbar on windows devices
@@ -56,8 +47,7 @@ export default function Admin({ ...rest }) {
   // states and functions
   // eslint-disable-next-line
   const [image, setImage] = React.useState(bgImage);
-  // eslint-disable-next-line
-  const [color, setColor] = React.useState("blue");
+  const [color, setColor] = React.useState("purple");
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
 

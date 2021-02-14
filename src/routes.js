@@ -3,7 +3,7 @@ import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
-import LocationOn from "@material-ui/icons/LocationOn";
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import Notifications from "@material-ui/icons/Notifications";
 
 // core components/views for Admin layout
@@ -12,7 +12,7 @@ import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
 import Icons from "views/Icons/Icons.js";
-import Maps from "views/Maps/Maps.js";
+import Calendar from "views/Calendar/Calendar.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 
 
@@ -54,10 +54,10 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/maps",
-    name: "Maps",
-    icon: LocationOn,
-    component: Maps,
+    path: "/Calendar",
+    name: "Calendar",
+    icon: CalendarTodayIcon,
+    component: Calendar,
     layout: "/admin"
   },
   {
