@@ -34,7 +34,7 @@ const dashboardRoutes = [
   },
   {
     path: "/Calendar",
-    name: "Calendar",
+    name: "Availability",
     icon: CalendarTodayIcon,
     component: Calendar,
     layout: "",
