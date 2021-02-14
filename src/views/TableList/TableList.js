@@ -43,28 +43,36 @@ const useStyles = makeStyles(styles);
 
 export default function TableList() {
 
-  const [tableData, setTableData] = useState(null);
+  const [table, setTableData] = useState(null);
 
   var requestOptions = {
     method: 'GET',
     redirect: 'follow'
   };
-  
-  useEffect(() => {
-    // GET request using fetch inside useEffect React hook
-    fetch("https://operating-land-304706.wm.r.appspot.com/get_all_sessions?user_id=James", requestOptions)
-          .then(response => response.json())
-          // .then(data => setTableData(data))
-          .then(result => console.log(result))
-          .catch(error => console.log('error', error));
 
-    // empty dependency array means this effect will only run once (like componentDidMount in classes)
+  useEffect(() => {
+    async function fetchMyAPI() {
+      let response = await fetch("https://operating-land-304706.wm.r.appspot.com/get_all_sessions?user_id=James", requestOptions)
+      response = await response.json()
+      setTableData(response)
+    }
+
+      fetchMyAPI()
     }, []);
+
+    console.log(table)
+    var arr = [];
+    if (table != null && table.all_sessions != null) {
+      for (var i = 0; i < table.all_sessions.length; i++) {
+        arr.push([table.all_sessions[i].course, table.all_sessions[i].meeting_time, table.all_sessions[i].user_one, "temp", "temp"])
+      }
+    }
+
+    console.log(arr)
 
   const classes = useStyles();
   return (
     <GridContainer>
-      {/* <div> HEllo: {tableData} </div> */}
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
@@ -77,14 +85,7 @@ export default function TableList() {
             <Table
               tableHeaderColor="primary"
               tableHead={["When", "Class", "Topic", "Questions You'll Ask", "Action"]}
-              tableData={[  
-                ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
-                ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
-                ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
-                ["Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
-                ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
-                ["Mason Porter", "Chile", "Gloucester", "$78,615"]
-              ]}
+              tableData={arr}
             />
           </CardBody>
         </Card>
