@@ -3,6 +3,7 @@ import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Peer from "simple-peer";
 import io from "socket.io-client";
+import Button from "@material-ui/core/Button";
 
 export default function Room() {
     const [yourID, setYourID] = useState("");
@@ -22,7 +23,7 @@ export default function Room() {
             withCredentials: true
         });
         console.log(socket.current)
-        navigator.mediaDevices.getUserMedia({video: true, audio: true}).then(stream => {
+        navigator.mediaDevices.getUserMedia({video: true, audio: false}).then(stream => {
             setStream(stream);
             if(userVideo.current){
                 userVideo.current.srcObject = stream;
@@ -113,19 +114,21 @@ export default function Room() {
                 <GridItem xs={12} sm={12} md={6}>
                     {PartnerVideo}
                 </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
+                <GridItem xs={6} sm={6} md={6}>
                     {UserVideo}
                 </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                    {Object.keys(users).map(key => {
+                {
+                    Object.keys(users).map(key => {
                         if(key === yourID){
                             return null;
                         }
                         return (
-                            <button onClick={() => callPeer(key)}>Call {key}</button>
+                            <GridItem>
+                                <Button variant={"contained"} color={"primary"} onClick={() => callPeer(key)}>Call {key}</Button>
+                            </GridItem>
                         );
-                    })}
-                </GridItem>
+                    })
+                }
                 <GridItem xs={12} sm={12} md={6}>
                     {incomingCall}
                 </GridItem>
