@@ -101,6 +101,7 @@ export default function TableList() {
   const [questionData, setQuestionData] = React.useState("");
   const [table, setTableData] = useState(null);
   const [openload, setOpenload] = React.useState(false);
+  const [users, setUsers] = React.useState(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -169,8 +170,18 @@ export default function TableList() {
       setOpenload(false);
       setTableData(response)
     }
+
+    async function fetchUsers() {
+      let response = await fetch("https://operating-land-304706.wm.r.appspot.com/cancel_session?user_id=a9A5KGO2lVco7KWs0pdJ245BXzy1", {
+        method: 'GET',
+        redirect: 'follow',
+      })
+      response = await response.json()
+      setUsers(response)
+    }
+
     fetchMyAPI()
-    
+    fetchUsers()
   }, []);
 
   function formatDate(date) {
@@ -202,7 +213,7 @@ export default function TableList() {
         if(table[key].user_two == "") {
           table[key].user_two = "unassigned"
         }
-        past.push([formatDate(date), table[key].course, table[key].user_two, add, view]);
+        past.push([formatDate(date), table[key].course, users.table[key].user_two, add, view]);
         visited = true;
       }
       if (!visited) {
@@ -213,7 +224,7 @@ export default function TableList() {
           if(table[key].user_two == "") {
             table[key].user_two = "unassigned"
           }
-        upcoming.push([formatDate(date), table[key].course, table[key].user_two, view, cancel])
+        upcoming.push([formatDate(date), table[key].course, users.table[key].user_two, view, cancel])
       }
     }
   }
