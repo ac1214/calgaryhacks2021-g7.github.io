@@ -24,6 +24,7 @@ export const routes = [
   "/icons",
   "/Calendar",
   "/notifications",
+  "/Room"
 ];
 
 const dashboardRoutes = [
@@ -81,7 +82,7 @@ const dashboardRoutes = [
     name: "Room",
     icon: Notifications,
     component: Room,
-    layout: "/admin"
+    layout: ""
   }
 ];
 
