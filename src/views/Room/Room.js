@@ -1,11 +1,11 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import GridItem from "components/Grid/GridItem.js";
 import Peer from "simple-peer";
 import io from "socket.io-client";
 import Button from "@material-ui/core/Button";
 import {CodeEditor} from "../../components/CodeEditor/CodeEditor";
 import Grid from "@material-ui/core/Grid";
-import {Box, FormLabel, Paper, RadioGroup, Typography} from "@material-ui/core";
+import {Paper, Typography} from "@material-ui/core";
 import Doc from "components/Doc/Doc";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
@@ -20,17 +20,17 @@ const useStyles = makeStyles((theme) => ({
     whiteboard: {
         height: "auto",
         padding: 10,
-        minHeight: 150
+        minHeight: 100
     },
     codeEditor: {
         height: "auto",
         padding: 10,
-        minHeight: 400
+        minHeight: 250
     },
     console: {
         height: "auto",
         padding: 10,
-        minHeight: 100,
+        minHeight: 50,
         marginBottom: 10
     }
 }));
@@ -152,80 +152,78 @@ export default function Room() {
     }
 
     return (
-        <Box>
-            <Grid container className={classes.root} spacing={2}>
-                <Grid item xs={12} md={5}>
-                    <Grid container justify="center" spacing={2}>
-                        <Grid item>
-                            <Typography variant={"h5"} component={"h1"}>
-                                Question 759
-                            </Typography>
-                            <Paper className={classes.paper}>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque enim
-                                    et reprehenderit voluptatum? Amet, cupiditate dolorum ea
-                                    exercitationem expedita id iste minus officia officiis quibusdam
-                                    saepe sed tempore, temporibus tenetur.
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque enim
-                                    et reprehenderit voluptatum? Amet, cupiditate dolorum ea
-                                    exercitationem expedita id iste minus officia officiis quibusdam
-                                    saepe sed tempore, temporibus tenetur. Lorem ipsum dolor sit amet,
-                                    consectetur adipisicing elit. Eaque enim et reprehenderit
-                                    voluptatum? Amet, cupiditate dolorum ea exercitationem expedita id
-                                    iste minus officia officiis quibusdam saepe sed tempore, temporibus
-                                    tenetur.
-                                </p>
-                            </Paper>
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={12}>
-                            <Typography variant={"h5"} component={"h1"}>Whiteboard</Typography>
-                            <Paper className={classes.whiteboard}>
-                                <Doc/>
-                            </Paper>
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={12}>
-                            {incomingCall}
-                        </Grid>
-                        {Object.keys(users).map((key) => {
-                            if (key === yourID) {
-                                return null;
-                            }
-                            return (
-                                <Button
-                                    variant={"outlined"}
-                                    color={"primary"}
-                                    onClick={() => callPeer(key)}
-                                >
-                                    JOIN {key}
-                                </Button>
-                            );
-                        })}
+        <Grid container className={classes.root} spacing={2}>
+            <Grid item xs={12} md={5}>
+                <Grid container justify="center" spacing={2}>
+                    <Grid item>
+                        <Typography variant={"h5"} component={"h1"}>
+                            Question 759
+                        </Typography>
+                        <Paper variant="outlined" className={classes.paper}>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque enim
+                                et reprehenderit voluptatum? Amet, cupiditate dolorum ea
+                                exercitationem expedita id iste minus officia officiis quibusdam
+                                saepe sed tempore, temporibus tenetur.
+                                <br/>
+                                <br/>
+                                <br/>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque enim
+                                et reprehenderit voluptatum? Amet, cupiditate dolorum ea
+                                exercitationem expedita id iste minus officia officiis quibusdam
+                                saepe sed tempore, temporibus tenetur. Lorem ipsum dolor sit amet,
+                                consectetur adipisicing elit. Eaque enim et reprehenderit
+                                voluptatum? Amet, cupiditate dolorum ea exercitationem expedita id
+                                iste minus officia officiis quibusdam saepe sed tempore, temporibus
+                                tenetur.
+                            </p>
+                        </Paper>
                     </Grid>
+                    <Grid item xs={12} sm={12} md={12}>
+                        <Typography variant={"h5"} component={"h1"}>Whiteboard</Typography>
+                        <Paper variant="outlined" className={classes.whiteboard}>
+                            <Doc/>
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12}>
+                        {incomingCall}
+                    </Grid>
+                    {Object.keys(users).map((key) => {
+                        if (key === yourID) {
+                            return null;
+                        }
+                        return (
+                            <Button
+                                variant={"outlined"}
+                                color={"primary"}
+                                onClick={() => callPeer(key)}
+                            >
+                                JOIN {key}
+                            </Button>
+                        );
+                    })}
                 </Grid>
-                <Grid item xs={12} md={6}>
-                    <Grid container direction={"column"}>
-                        <Grid item>
-                            <Typography variant={"h5"} component={"h3"}>
-                                Code Editor
-                            </Typography>
-                            <Paper className={classes.codeEditor}>
-                                <CodeEditor/>
-                            </Paper>
-                        </Grid>
-                        <Grid item>
-                            <Typography variant={"h5"} component={"h1"}>Console</Typography>
-                            <Paper className={classes.console}></Paper>
-                        </Grid>
-                        <Grid item>
-                            {PartnerVideo}
-                            {UserVideo}
-                        </Grid>
+            </Grid>
+            <Grid item xs={12} md={6}>
+                <Grid container direction={"column"}>
+                    <Grid item>
+                        <Typography variant={"h5"} component={"h3"}>
+                            Code Editor
+                        </Typography>
+                        <Paper variant="outlined" className={classes.codeEditor}>
+                            <CodeEditor/>
+                        </Paper>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant={"h5"} component={"h1"}>Console</Typography>
+                        <Paper variant="outlined" className={classes.console}></Paper>
+                    </Grid>
+                    <Grid item>
+                        {PartnerVideo}
+                        {UserVideo}
                     </Grid>
                 </Grid>
             </Grid>
-        </Box>
+        </Grid>
     );
 }
