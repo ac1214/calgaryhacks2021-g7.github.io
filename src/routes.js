@@ -3,7 +3,7 @@ import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import Notifications from "@material-ui/icons/Notifications";
 
 // core components/views for Admin layout
@@ -15,7 +15,15 @@ import Icons from "views/Icons/Icons.js";
 import Calendar from "views/Calendar/Calendar.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 
-
+export const routes = [
+  "/dashboard",
+  "/user",
+  "/table",
+  "/typography",
+  "/icons",
+  "/Calendar",
+  "/notifications",
+];
 
 const dashboardRoutes = [
   {
@@ -23,49 +31,49 @@ const dashboardRoutes = [
     name: "Dashboard",
     icon: Dashboard,
     component: DashboardPage,
-    layout: "/admin"
+    layout: "",
   },
   {
     path: "/user",
     name: "User Profile",
     icon: Person,
     component: UserProfile,
-    layout: "/admin"
+    layout: "",
   },
   {
     path: "/table",
     name: "Table List",
     icon: "content_paste",
     component: TableList,
-    layout: "/admin"
+    layout: "",
   },
   {
     path: "/typography",
     name: "Typography",
     icon: LibraryBooks,
     component: Typography,
-    layout: "/admin"
+    layout: "",
   },
   {
     path: "/icons",
     name: "Icons",
     icon: BubbleChart,
     component: Icons,
-    layout: "/admin"
+    layout: "",
   },
   {
     path: "/Calendar",
     name: "Calendar",
     icon: CalendarTodayIcon,
     component: Calendar,
-    layout: "/admin"
+    layout: "",
   },
   {
     path: "/notifications",
     name: "Notifications",
     icon: Notifications,
     component: NotificationsPage,
-    layout: "/admin"
+    layout: "",
   },
 ];
 
