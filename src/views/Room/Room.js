@@ -1,13 +1,20 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import GridItem from "components/Grid/GridItem.js";
 import Peer from "simple-peer";
 import io from "socket.io-client";
 import Button from "@material-ui/core/Button";
-import {CodeEditor} from "../../components/CodeEditor/CodeEditor";
+import { CodeEditor } from "../../components/CodeEditor/CodeEditor";
 import Grid from "@material-ui/core/Grid";
-import {Paper, Typography} from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import Doc from "components/Doc/Doc";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import ReactMarkdown from 'react-markdown'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,6 +52,25 @@ export default function Room() {
     const [caller, setCaller] = useState("");
     const [callerSignal, setCallerSignal] = useState();
     const [callAccepted, setCallAccepted] = useState(false);
+    const [open, setOpen] = React.useState(true);
+    const [roomcode, setRoomCode] = React.useState("");
+    const [questionprompt, setQuestionPropmpt] = React.useState("");
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        console.log(roomcode)
+        // setOpen(false);
+    };
+
+
+    const handleEnter = () => {
+        console.log(roomcode)
+        setQuestionPropmpt("## Question 1  \n**Prompt:**  \nGiven a non-negative integer num, return the number of steps to reduce it to zero.\n If the current number is even, you have to divide it by 2, otherwise, you have to subtract 1 from it.\n\n``` \nExample 1:\nInput: num = 14\nOutput: 6\nExplanation: \nStep 1) 14 is even; divide by 2 and obtain 7. \nStep 2) 7 is odd; subtract 1 and obtain 6.\nStep 3) 6 is even; divide by 2 and obtain 3. \nStep 4) 3 is odd; subtract 1 and obtain 2. \nStep 5) 2 is even; divide by 2 and obtain 1. \nStep 6) 1 is odd; subtract 1 and obtain 0.\n```\n\n```\nExample 2:\nInput: num = 8\nOutput: 4\nExplanation: \nStep 1) 8 is even; divide by 2 and obtain 4. \nStep 2) 4 is even; divide by 2 and obtain 2. \nStep 3) 2 is even; divide by 2 and obtain 1. \nStep 4) 1 is odd; subtract 1 and obtain 0.\n```\n\n```\nExample 3:\nInput: num = 123\nOutput: 12\n```  \n\n**Answer:**  \n```python\ndef numberOfSteps (self, num):\n    steps = 0 # We need to keep track of how many steps this takes.\n    while num > 0: # Remember, we're taking steps until num is 0.\n        if num % 2 == 0: # Modulus operator tells us num is *even*.\n            num = num // 2 # So we divide num by 2.\n        else: # Otherwise, num must be *odd*.\n            num = num - 1 # So we subtract 1 from num.\n        steps = steps + 1 # We *always* increment steps by 1.\n    return steps # And at the end, the answer is in steps so we return it.\n```  \n***\n## Question 2  \n**Prompt:**  \nGiven an array of integers ```nums``` and an integer ```target```, return indices \nof the two numbers such that they add up to ```target```.\n\nYou may assume that each input would have **exactly one solution**, and you \nmay not use the same element twice.\n\nYou can return the answer in any order.\n\nExample 1:\n```\nInput: nums = [2,7,11,15], target = 9\nOutput: [0,1]\nOutput: Because nums[0] + nums[1] == 9, we return [0, 1].\n```\n\nExample 2: \n```\nInput: nums = [3,2,4], target = 6\nOutput: [1,2]\n```\n\nExample 3:\n```\nInput: nums = [3,3], target = 6\nOutput: [0,1]\n```  \n\n**Answer:**  \n```java\npublic int[] twoSum(int[] nums, int target) {\n    Map<Integer, Integer> map = new HashMap<>();\n    for (int i = 0; i < nums.length; i++) {\n        int complement = target - nums[i];\n        if (map.containsKey(complement)) {\n            return new int[] { map.get(complement), i };\n        }\n        map.put(nums[i], i);\n    }\n    throw new IllegalArgumentException(\"No two sum solution\");\n}\n```  \n***\n## Question 3  \n**Prompt:**  \nGiven a non-negative integer num, return the number of steps to reduce it to zero.\n If the current number is even, you have to divide it by 2, otherwise, you have to subtract 1 from it.\n\n``` \nExample 1:\nInput: num = 14\nOutput: 6\nExplanation: \nStep 1) 14 is even; divide by 2 and obtain 7. \nStep 2) 7 is odd; subtract 1 and obtain 6.\nStep 3) 6 is even; divide by 2 and obtain 3. \nStep 4) 3 is odd; subtract 1 and obtain 2. \nStep 5) 2 is even; divide by 2 and obtain 1. \nStep 6) 1 is odd; subtract 1 and obtain 0.\n```\n\n```\nExample 2:\nInput: num = 8\nOutput: 4\nExplanation: \nStep 1) 8 is even; divide by 2 and obtain 4. \nStep 2) 4 is even; divide by 2 and obtain 2. \nStep 3) 2 is even; divide by 2 and obtain 1. \nStep 4) 1 is odd; subtract 1 and obtain 0.\n```\n\n```\nExample 3:\nInput: num = 123\nOutput: 12\n```  \n\n**Answer:**  \n```python\ndef numberOfSteps (self, num):\n    steps = 0 # We need to keep track of how many steps this takes.\n    while num > 0: # Remember, we're taking steps until num is 0.\n        if num % 2 == 0: # Modulus operator tells us num is *even*.\n            num = num // 2 # So we divide num by 2.\n        else: # Otherwise, num must be *odd*.\n            num = num - 1 # So we subtract 1 from num.\n        steps = steps + 1 # We *always* increment steps by 1.\n    return steps # And at the end, the answer is in steps so we return it.\n```  \n")
+        setOpen(false);
+    };
 
     const userVideo = useRef();
     const partnerVideo = useRef();
@@ -58,7 +84,7 @@ export default function Room() {
             }
         );
         navigator.mediaDevices
-            .getUserMedia({video: true, audio: false})
+            .getUserMedia({ video: true, audio: false })
             .then((stream) => {
                 setStream(stream);
                 if (userVideo.current) {
@@ -116,7 +142,7 @@ export default function Room() {
             stream: stream,
         });
         peer.on("signal", (data) => {
-            socket.current.emit("acceptCall", {signal: data, to: caller});
+            socket.current.emit("acceptCall", { signal: data, to: caller });
         });
 
         peer.on("stream", (stream) => {
@@ -130,12 +156,12 @@ export default function Room() {
 
     let UserVideo;
     if (stream) {
-        UserVideo = <video ref={userVideo} autoPlay={true} height={150}/>;
+        UserVideo = <video ref={userVideo} autoPlay={true} height={150} />;
     }
 
     let PartnerVideo;
     if (callAccepted) {
-        PartnerVideo = <video ref={partnerVideo} autoPlay={true} height={300}/>;
+        PartnerVideo = <video ref={partnerVideo} autoPlay={true} height={300} />;
     }
 
     let incomingCall;
@@ -157,33 +183,14 @@ export default function Room() {
                 <Grid container justify="center" spacing={2}>
                     <Grid item>
                         <Typography variant={"h5"} component={"h1"}>
-                            Question 759
+                            Prompt
                         </Typography>
-                        <Paper variant="outlined" className={classes.paper}>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque enim
-                                et reprehenderit voluptatum? Amet, cupiditate dolorum ea
-                                exercitationem expedita id iste minus officia officiis quibusdam
-                                saepe sed tempore, temporibus tenetur.
-                                <br/>
-                                <br/>
-                                <br/>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque enim
-                                et reprehenderit voluptatum? Amet, cupiditate dolorum ea
-                                exercitationem expedita id iste minus officia officiis quibusdam
-                                saepe sed tempore, temporibus tenetur. Lorem ipsum dolor sit amet,
-                                consectetur adipisicing elit. Eaque enim et reprehenderit
-                                voluptatum? Amet, cupiditate dolorum ea exercitationem expedita id
-                                iste minus officia officiis quibusdam saepe sed tempore, temporibus
-                                tenetur.
-                            </p>
+                        <Paper variant="outlined" style={{ maxWidth: "600px" }} className={classes.paper}>
+                            <ReactMarkdown source={questionprompt} />
                         </Paper>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12}>
-                        <Typography variant={"h5"} component={"h1"}>Whiteboard</Typography>
-                        <Paper variant="outlined" className={classes.whiteboard}>
-                            <Doc/>
-                        </Paper>
+
                     </Grid>
                     <Grid item xs={12} sm={12} md={12}>
                         {incomingCall}
@@ -211,12 +218,16 @@ export default function Room() {
                             Code Editor
                         </Typography>
                         <Paper variant="outlined" className={classes.codeEditor}>
-                            <CodeEditor/>
+                            <CodeEditor />
                         </Paper>
                     </Grid>
                     <Grid item>
                         <Typography variant={"h5"} component={"h1"}>Console</Typography>
                         <Paper variant="outlined" className={classes.console}></Paper>
+                        <Typography variant={"h5"} component={"h1"}>Whiteboard</Typography>
+                        <Paper variant="outlined" className={classes.whiteboard}>
+                            <Doc />
+                        </Paper>
                     </Grid>
                     <Grid item>
                         {PartnerVideo}
@@ -224,6 +235,33 @@ export default function Room() {
                     </Grid>
                 </Grid>
             </Grid>
+            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Enter Session Code</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Enter session code to start learning with classmates!
+          </DialogContentText>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="sess"
+                        label="Session Code"
+                        fullWidth
+                        onChange={event => {
+                            const { value } = event.target;
+                            setRoomCode(value);
+                        }}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        <a style={{ display: "table-cell", color: "#3f51b5" }} href="./table" >Cancel</a>
+                    </Button>
+                    <Button onClick={handleEnter} color="primary">
+                        Enter
+          </Button>
+                </DialogActions>
+            </Dialog>
         </Grid>
     );
 }
