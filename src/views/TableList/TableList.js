@@ -139,7 +139,7 @@ export default function TableList() {
   const cancelSession = (session_id) => { // the callback. Use a better name\
     setOpenload(true);
     async function fetchMyAPI() {
-      let response = await fetch("https://operating-land-304706.wm.r.appspot.com/cancel_session?user_id=a9A5KGO2lVco7KWs0pdJ245BXzy1", {
+      let response = await fetch("https://operating-land-304706.wm.r.appspot.com/cancel_session?user_id=" + user.uid, {
         method: 'DELETE',
         redirect: 'follow',
         body: JSON.stringify({
@@ -165,7 +165,11 @@ export default function TableList() {
     setOpenload(true);
 
     async function fetchMyAPI() {
-      let response = await fetch("https://operating-land-304706.wm.r.appspot.com/get_all_sessions?user_id=a9A5KGO2lVco7KWs0pdJ245BXzy1", requestOptions)
+      if (user === null) {
+        return;
+      }
+
+      let response = await fetch("https://operating-land-304706.wm.r.appspot.com/get_all_sessions?user_id=" + user.uid, requestOptions)
       response = await response.json()
       setOpenload(false);
       setTableData(response)
@@ -213,7 +217,12 @@ export default function TableList() {
         if(table[key].user_two == "") {
           table[key].user_two = "unassigned"
         }
-        past.push([formatDate(date), table[key].course, users.table[key].user_two, add, view]);
+
+        let otherUser = table[key].user_two;
+        if (otherUser === user.uid) {
+          otherUser = table[key].user_one;
+        }
+        past.push([formatDate(date), table[key].course, users.otherUser, add, view]);
         visited = true;
       }
       if (!visited) {
@@ -224,7 +233,12 @@ export default function TableList() {
           if(table[key].user_two == "") {
             table[key].user_two = "unassigned"
           }
-        upcoming.push([formatDate(date), table[key].course, users.table[key].user_two, view, cancel])
+
+          let otherUser = table[key].user_two;
+          if (otherUser === user.uid) {
+            otherUser = table[key].user_one;
+          }
+        upcoming.push([formatDate(date), table[key].course, users.otherUser, view, cancel])
       }
     }
   }

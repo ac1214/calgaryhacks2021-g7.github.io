@@ -26,11 +26,6 @@ function tConvert(time) {
 
 export default function Calendar() {
     const { user } = useContext(AuthContext);
-    // const [chosenTime, setChosenTime] = useState({
-    //     date: null,
-    //     dateString: "",
-    //     subject: "Datastructures and Algorithms"
-    // });
     const [date, setDate] = React.useState(null);
     const [datestring, setDateString] = useState(null);
     const [subject, setSubject] = useState("");  
