@@ -1,7 +1,6 @@
-import React from "react";
+import React, {useEffect, useRef, useState} from "react";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import {useEffect, useRef, useState} from "react";
 import Peer from "simple-peer";
 import io from "socket.io-client";
 
@@ -115,7 +114,7 @@ export default function Room() {
                     {PartnerVideo}
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
-                    {userVideo}
+                    {UserVideo}
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
                     {Object.keys(users).map(key => {
