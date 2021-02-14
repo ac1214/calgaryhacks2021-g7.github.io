@@ -3,7 +3,7 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import {Button, Modal} from "@material-ui/core";
+import {Button, Dialog} from "@material-ui/core";
 import "./Calendar.css";
 
 let valid_slots = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
@@ -91,15 +91,14 @@ export default function Calendar () {
             <Button className="confirm-button" variant="contained" color="primary" onClick={()=>handleModalOpen()}>
                 {"CONFIRM & SCHEDULE:  " + chosenTime.dateString}
             </Button>
-            <Modal
-                className="modal"
+            <Dialog
                 open={modalOpen}
                 onClose={handleModalClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >
                 <h1>Hello World</h1>
-            </Modal>
+            </Dialog>
         </div>
     )
 }
