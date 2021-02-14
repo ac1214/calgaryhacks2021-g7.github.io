@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "82a83e6a1c22c523ee69b2e2a603ac7e",
+    "revision": "8edf9a4f187206941da25defe7dfaf28",
     "url": "/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/css/2.3b506db9.chunk.css"
   },
   {
-    "revision": "8f894876d06fdc7f2716",
+    "revision": "30690f496eaae2b3ee9f",
     "url": "/static/css/main.983783f0.chunk.css"
   },
   {
@@ -20,12 +20,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/2.d65f946a.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "8f894876d06fdc7f2716",
-    "url": "/static/js/main.7fce0b2c.chunk.js"
+    "revision": "30690f496eaae2b3ee9f",
+    "url": "/static/js/main.4419d275.chunk.js"
   },
   {
     "revision": "9d1948da6512e239c4cd",
     "url": "/static/js/runtime-main.f9fa5b6e.js"
+  },
+  {
+    "revision": "c11dc7bee276388b8d90515edcf48981",
+    "url": "/static/media/booklogo-trans.c11dc7be.png"
   },
   {
     "revision": "8880a65c57d7f031579335be153f64a0",
