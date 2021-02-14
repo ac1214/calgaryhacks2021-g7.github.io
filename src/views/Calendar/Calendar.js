@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect, useRef, useContext} from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -6,6 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import {Button, Dialog} from "@material-ui/core";
 import "./Calendar.css";
 import SubjectOptions from "./SubjectOptions";
+import {AuthContext} from "../../context/auth-context";
 
 let valid_slots = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
 const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -24,10 +25,11 @@ function tConvert(time) {
 }
 
 export default function Calendar () {
+    const {user} = useContext(AuthContext);
     const [chosenTime, setChosenTime] = useState({
         date: null,
         dateString: "",
-        subject: ""
+        subject: "Datastructures and Algorithms"
     });
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -37,6 +39,19 @@ export default function Calendar () {
 
     const handleModalClose = () => {
         setModalOpen(false);
+
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                "user_id": user.uid,
+                "meeting_time": chosenTime.date,
+                "course": chosenTime.subject
+            })
+        };
+
+        fetch('https://operating-land-304706.wm.r.appspot.com/schedule_session', requestOptions)
+            .then(response => console.log(response.json()));
     }
 
     const handleEventClick = (event) => {
