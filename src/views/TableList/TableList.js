@@ -219,8 +219,15 @@ export default function TableList() {
         }
 
         let otherUser = table[key].user_two;
+        let name = "";
         if (otherUser === user.uid) {
           otherUser = table[key].user_one;
+        }
+        if (otherUser == null) {
+          name = "Unassigned"
+        }
+        if (otherUser != null) {
+          users[otherUser.toString()]
         }
         past.push([formatDate(date), table[key].course, users[otherUser.toString()], add, view]);
         visited = true;
@@ -234,10 +241,17 @@ export default function TableList() {
           table[key].user_two = "unassigned"
         }
         let otherUser = table[key].user_two;
+        let name = "";
         if (otherUser === user.uid) {
           otherUser = table[key].user_one;
         }
-        upcoming.push([formatDate(date), table[key].course, users[otherUser.toString()], view, cancel])
+        if (otherUser == null) {
+          name = "Unassigned"
+        }
+        if (otherUser != null) {
+          users[otherUser.toString()]
+        }
+        upcoming.push([formatDate(date), table[key].course, name, view, cancel])
       }
     }
   }
@@ -268,7 +282,7 @@ export default function TableList() {
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite} style={{ fontSize: "20px", fontWeight: "bold" }}>Past Practice Sessions</h4>
             <p className={classes.cardCategoryWhite} style={{ fontSize: "15px" }}>
-            View your past practice sessions
+              View your past practice sessions
             </p>
           </CardHeader>
           <CardBody>
