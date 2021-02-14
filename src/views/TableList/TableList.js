@@ -8,6 +8,9 @@ import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+import Button from '@material-ui/core/Button';
+import Modal from '@material-ui/core/Modal';
+
 
 const styles = {
   cardCategoryWhite: {
@@ -39,6 +42,7 @@ const styles = {
   }
 };
 
+
 const useStyles = makeStyles(styles);
 
 export default function TableList() {
@@ -60,11 +64,13 @@ export default function TableList() {
       fetchMyAPI()
     }, []);
 
+    const element = <Button variant="outlined" color="secondary"> Cancel </Button>
+
     console.log(table)
     var arr = [];
     if (table != null && table.all_sessions != null) {
       for (var i = 0; i < table.all_sessions.length; i++) {
-        arr.push([table.all_sessions[i].course, table.all_sessions[i].meeting_time, table.all_sessions[i].user_one, "temp", "temp"])
+        arr.push([table.all_sessions[i].course, table.all_sessions[i].meeting_time, table.all_sessions[i].user_two, "temp", element])
       }
     }
 
