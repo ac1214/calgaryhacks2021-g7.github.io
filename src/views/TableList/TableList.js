@@ -25,7 +25,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Backdrop from '@material-ui/core/Backdrop';
 
 const styles = {
-  
+
   backdrop: {
     color: '#fff',
   }
@@ -126,12 +126,12 @@ export default function TableList() {
 
   const sendDataToParent = (session_id) => { // the callback. Use a better name
     var res = session_id.split(",");
-    if(res[1] == 'view') {
+    if (res[1] == 'view') {
       setQuestionData(table[res[0]].formatted_questions);
       // console.log(table[session_id].formatted_questions);
       handleClickOpen();
     }
-    if(res[1] == 'cancel') {
+    if (res[1] == 'cancel') {
       cancelSession(res[0]);
     }
   };
@@ -196,7 +196,7 @@ export default function TableList() {
     var ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? '0'+minutes : minutes;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear() + "  " + strTime;
   }
@@ -206,31 +206,38 @@ export default function TableList() {
   var upcoming = [];
   var past = [];
   if (table != null) {
-    for(const key in table) {
+    for (const key in table) {
       var visited = false;
       var date = Date.parse(table[key].meeting_time);
       // Previous time
-      if(date < Date.now()) {
-        const view = <RegularButton variant="outlined" button_type="view"  color="primary" session_id={table[key].id}
-        senddatatoparent={sendDataToParent}>View Feedback</RegularButton>
+      if (date < Date.now()) {
+        const view = <RegularButton variant="outlined" button_type="view" color="primary" session_id={table[key].id}
+          senddatatoparent={sendDataToParent}>View Feedback</RegularButton>
         const add = <RegularButton color="primary">Add Friend</RegularButton>
-        if(table[key].user_two == "") {
+        if (table[key].user_two == "") {
           table[key].user_two = "unassigned"
         }
 
-        past.push([formatDate(date), table[key].course, table[key].user_one, add, view]);
+        let otherUser = table[key].user_two;
+        if (otherUser === user.uid) {
+          otherUser = table[key].user_one;
+        }
+        past.push([formatDate(date), table[key].course, users[otherUser.toString()], add, view]);
         visited = true;
       }
       if (!visited) {
-        const view = <RegularButton variant="outlined" button_type="view"  color="primary" session_id={table[key].id}
-        senddatatoparent={sendDataToParent}>View</RegularButton>
+        const view = <RegularButton variant="outlined" button_type="view" color="primary" session_id={table[key].id}
+          senddatatoparent={sendDataToParent}>View</RegularButton>
         const cancel = <RegularButton variant="outlined" color="secondary" button_type="cancel" session_id={table[key].id}
           senddatatoparent={sendDataToParent}>Cancel</RegularButton>
-          if(table[key].user_two == "") {
-            table[key].user_two = "unassigned"
-          }
-
-        upcoming.push([formatDate(date), table[key].course, table[key].user_one, view, cancel])
+        if (table[key].user_two == "") {
+          table[key].user_two = "unassigned"
+        }
+        let otherUser = table[key].user_two;
+        if (otherUser === user.uid) {
+          otherUser = table[key].user_one;
+        }
+        upcoming.push([formatDate(date), table[key].course, users[otherUser.toString()], view, cancel])
       }
     }
   }
@@ -242,8 +249,8 @@ export default function TableList() {
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite} style={{fontSize: "20px", fontWeight: "bold"}}>Upcoming Practice Sessions</h4>
-            <p className={classes.cardCategoryWhite} style={{fontSize: "15px"}}>
+            <h4 className={classes.cardTitleWhite} style={{ fontSize: "20px", fontWeight: "bold" }}>Upcoming Practice Sessions</h4>
+            <p className={classes.cardCategoryWhite} style={{ fontSize: "15px" }}>
               View your upcoming practice sessions
             </p>
           </CardHeader>
@@ -259,8 +266,8 @@ export default function TableList() {
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}  style={{fontSize: "20px", fontWeight: "bold"}}>Past Practice Sessions</h4>
-            <p className={classes.cardCategoryWhite} style={{fontSize: "15px"}}>
+            <h4 className={classes.cardTitleWhite} style={{ fontSize: "20px", fontWeight: "bold" }}>Past Practice Sessions</h4>
+            <p className={classes.cardCategoryWhite} style={{ fontSize: "15px" }}>
             View your past practice sessions
             </p>
           </CardHeader>
