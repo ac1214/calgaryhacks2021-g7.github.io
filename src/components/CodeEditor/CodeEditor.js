@@ -9,7 +9,7 @@ import FormControl from "@material-ui/core/FormControl";
 export const CodeEditor = () => {
 
     const [code, setCode] = useState(
-        `function add(a, b) {\n  return a + b;\n}`
+        `const add = (a, b) => {\n  return a + b;\n}`
     );
     const [language, setLanguage] = useState('JavaScript');
 
@@ -38,7 +38,7 @@ export const CodeEditor = () => {
             value={code}
             onValueChange={code => setCode(code)}
             highlight={code => highlight(code, languages.js)}
-            padding={10}
+            padding={20}
             minLength={200}
             style={{
                 fontFamily: '"Fira code", "Fira Mono", monospace',
