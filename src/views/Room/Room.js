@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
 import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
 import Peer from "simple-peer";
 import io from "socket.io-client";
 import Button from "@material-ui/core/Button";
