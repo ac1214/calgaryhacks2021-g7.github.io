@@ -28,7 +28,7 @@ const App = (props) => {
   useEffect(() => {
     console.log(props);
     if (!routes.includes(props.location.pathname)) {
-      props.history.push("/dashboard");
+      props.history.push("/table");
     }
   }, [props]);
 
